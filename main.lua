@@ -1,23 +1,21 @@
--- [[ XF SS: THE SYSTEM OVERRIDE V6 - MOUNT AGORA ONLY ]] --
+-- [[ XF SS: THE SYSTEM OVERRIDE V6 - AGORA EDITION ]] --
+-- FIXED: TextColor3 Nil Error (Screenshot Fix)
 
-local PlaceIdTarget = 124216358732636 -- ID Map Mount Agora
-local currentPlaceId = game.PlaceId
-
--- Proteksi ID Map
-if currentPlaceId ~= PlaceIdTarget then
+local PlaceIdTarget = 124216358732636
+if game.PlaceId ~= PlaceIdTarget then 
     warn("ACCESS DENIED only in Mount Agora!")
-    return -- Script berhenti di sini jika map salah
+    return 
 end
 
 local RepStorage = game:GetService("ReplicatedStorage")
 local UIS = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 
--- Logic Mentah Asli
+-- Logic Asli (Brute Force)
 local accessoryIDs = {10159600649, 10159606132, 10159610478, 9101259798}
 _G.OverrideActive = false
 
--- [[ GUI SETUP ]] --
+-- [[ UI CONSTRUCTION ]] --
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local TopBar = Instance.new("Frame")
@@ -25,40 +23,41 @@ local Title = Instance.new("TextLabel")
 local Content = Instance.new("Frame")
 local UIList = Instance.new("UIListLayout")
 
-ScreenGui.Name = "Override_Agora_Only"
+ScreenGui.Name = "Agora_Override_Fixed"
 ScreenGui.Parent = CoreGui
-ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Style Frame
+-- Main Frame (Deep Dark)
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 MainFrame.Position = UDim2.new(0.5, -90, 0.4, 0)
 MainFrame.Size = UDim2.new(0, 180, 0, 140)
 MainFrame.BorderSizePixel = 0
 
 local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(0, 10)
+Corner.CornerRadius = UDim.new(0, 8)
 Corner.Parent = MainFrame
 
--- Top Bar (Mount Agora Theme - Purple/Red)
+-- Top Bar (Purple Neon)
 TopBar.Name = "TopBar"
 TopBar.Parent = MainFrame
-TopBar.BackgroundColor3 = Color3.fromRGB(130, 0, 255)
+TopBar.BackgroundColor3 = Color3.fromRGB(120, 0, 255)
 TopBar.Size = UDim2.new(1, 0, 0, 30)
 
 local TopCorner = Instance.new("UICorner")
-TopCorner.CornerRadius = UDim.new(0, 10)
+TopCorner.CornerRadius = UDim.new(0, 8)
 TopCorner.Parent = TopBar
 
+-- FIX TEXTCOLOR3 ERROR: Pastikan Color3.fromRGB terisi
 Title.Parent = TopBar
-Title.Text = "LAG SERVER"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Text = "AGORA OVERRIDE"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255) -- Pastikan tidak nil
 Title.Font = Enum.Font.GothamBold
-Title.TextSize = 11
+Title.TextSize = 12
 Title.Size = UDim2.new(1, 0, 1, 0)
 
--- Container
+-- Content Area
 Content.Name = "Content"
 Content.Parent = MainFrame
 Content.BackgroundTransparency = 1
@@ -66,28 +65,28 @@ Content.Position = UDim2.new(0, 0, 0, 40)
 Content.Size = UDim2.new(1, 0, 1, -45)
 
 UIList.Parent = Content
-UIList.Padding = UDim.new(0, 8)
+UIList.Padding = UDim.new(0, 10)
 UIList.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
--- [[ TOMBOL 1: TOGGLE ]] --
+-- [[ BUTTON 1: TOGGLE ]] --
 local ToggleBtn = Instance.new("TextButton")
 ToggleBtn.Parent = Content
-ToggleBtn.Size = UDim2.new(0, 160, 0, 35)
-ToggleBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
-ToggleBtn.Text = "SYSTEM: IDLE"
-ToggleBtn.TextColor3 = Color3.white
+ToggleBtn.Size = UDim2.new(0, 150, 0, 35)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+ToggleBtn.Text = "OFF"
+ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 ToggleBtn.Font = Enum.Font.GothamBold
-ToggleBtn.TextSize = 13
+ToggleBtn.TextSize = 14
 
 local Corner1 = Instance.new("UICorner")
 Corner1.Parent = ToggleBtn
 
--- [[ TOMBOL 2: COPY LINK ]] --
+-- [[ BUTTON 2: COPY LINK ]] --
 local CopyBtn = Instance.new("TextButton")
 CopyBtn.Parent = Content
-CopyBtn.Size = UDim2.new(0, 160, 0, 35)
-CopyBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-CopyBtn.Text = "GROUP LINK"
+CopyBtn.Size = UDim2.new(0, 150, 0, 35)
+CopyBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+CopyBtn.Text = "COPY LINK"
 CopyBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
 CopyBtn.Font = Enum.Font.GothamBold
 CopyBtn.TextSize = 12
@@ -95,24 +94,25 @@ CopyBtn.TextSize = 12
 local Corner2 = Instance.new("UICorner")
 Corner2.Parent = CopyBtn
 
--- [[ LOGIC EXECUTION ]] --
-local function runOverride()
+--- [[ EXECUTION LOGIC ]] ---
+local function startOverride()
     local carryFolder = RepStorage:FindFirstChild("CarryRemotes")
     local carryRemote = carryFolder and carryFolder:FindFirstChild("CarryRemote")
     local addAccessory = RepStorage:FindFirstChild("AddAccessoryEvent")
 
     while _G.OverrideActive do
         pcall(function()
+            -- 1. Carry Spam (Agora Specific)
             if carryRemote then
-                carryRemote:FireServer("MOUNT AGORA OVERRIDE", Color3.fromRGB(130, 0, 255)) 
+                carryRemote:FireServer("MOUNT AGORA OWNED", Color3.fromRGB(120, 0, 255)) 
             end
-            
+            -- 2. Accessory Flood
             if addAccessory then
                 for _, id in pairs(accessoryIDs) do
                     addAccessory:FireServer(id)
                 end
             end
-
+            -- 3. Realistic Log Clicker
             for _, obj in pairs(workspace:GetChildren()) do
                 if obj.Name == "Realistic Log" then
                     local part = obj:FindFirstChild("Part")
@@ -125,15 +125,16 @@ local function runOverride()
     end
 end
 
+-- Button Logic
 ToggleBtn.MouseButton1Click:Connect(function()
     _G.OverrideActive = not _G.OverrideActive
     if _G.OverrideActive then
-        ToggleBtn.Text = "SYSTEM: ACTIVE"
-        ToggleBtn.BackgroundColor3 = Color3.fromRGB(130, 0, 255)
-        task.spawn(runOverride)
+        ToggleBtn.Text = "ACTIVE"
+        ToggleBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 255)
+        task.spawn(startOverride)
     else
-        ToggleBtn.Text = "SYSTEM: IDLE"
-        ToggleBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+        ToggleBtn.Text = "OFF"
+        ToggleBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     end
 end)
 
@@ -141,10 +142,10 @@ CopyBtn.MouseButton1Click:Connect(function()
     setclipboard("https://chat.whatsapp.com/I8hG44FLgrRAwQcS3lvEft")
     CopyBtn.Text = "COPIED!"
     task.wait(1.5)
-    CopyBtn.Text = "GROUP LINK"
+    CopyBtn.Text = "COPY LINK"
 end)
 
--- DRAG SYSTEM
+-- Dragging System
 local dragging, dragInput, dragStart, startPos
 TopBar.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -162,5 +163,3 @@ end)
 UIS.InputEnded:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
 end)
-
-print("✅ System Override V6 Loaded for Mount Agora.")
